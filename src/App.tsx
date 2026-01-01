@@ -8,6 +8,7 @@ import Learn from "./pages/Learn";
 import PortfolioPage from "./pages/PortfolioPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import MarketNewsPage from "./pages/MarketNewsPage";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/auth" element={<Auth />} />
           <Route path="/" element={<Index />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
