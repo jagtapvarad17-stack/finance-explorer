@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import LearningModules from "@/components/LearningModules";
@@ -9,10 +10,16 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   const [credits] = useState(8250);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header credits={credits} />
+    <motion.div 
+      className="min-h-screen bg-background"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: isLoggingOut ? 0 : 1, scale: isLoggingOut ? 0.98 : 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
+      <Header credits={credits} onLogout={() => setIsLoggingOut(true)} />
       <main>
         <Hero />
         <LearningModules />
@@ -21,7 +28,7 @@ const Index = () => {
         <MarketNews />
       </main>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

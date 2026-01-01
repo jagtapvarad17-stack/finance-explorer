@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface HeaderProps {
   credits: number;
+  onLogout?: () => void;
 }
 
 const navLinks = [
@@ -24,13 +25,18 @@ const navLinks = [
   { href: "/market-news", label: "Market News" },
 ];
 
-const Header = ({ credits }: HeaderProps) => {
+const Header = ({ credits, onLogout }: HeaderProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    navigate("/auth");
+    if (onLogout) {
+      onLogout();
+    }
+    setTimeout(() => {
+      navigate("/auth");
+    }, 400);
   };
 
   return (
