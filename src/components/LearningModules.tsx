@@ -1,5 +1,7 @@
 import { BookOpen, CreditCard, LineChart, PiggyBank, Shield, Wallet } from "lucide-react";
 import ModuleCard from "./ModuleCard";
+import AnimatedCard from "./AnimatedCard";
+import AnimatedSection from "./AnimatedSection";
 
 const modules = [
   {
@@ -68,7 +70,7 @@ const LearningModules = () => {
   return (
     <section id="learn" className="py-24 relative">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
+        <AnimatedSection className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
             Learning Modules
           </h2>
@@ -76,13 +78,13 @@ const LearningModules = () => {
             Complete interactive modules to earn credits and unlock new challenges. 
             Each module is designed to teach practical financial skills.
           </p>
-        </div>
+        </AnimatedSection>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {modules.map((module, index) => (
-            <div key={module.title} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+            <AnimatedCard key={module.title} index={index}>
               <ModuleCard {...module} />
-            </div>
+            </AnimatedCard>
           ))}
         </div>
       </div>

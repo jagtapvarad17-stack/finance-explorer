@@ -1,4 +1,6 @@
 import { Crown, Medal, Trophy } from "lucide-react";
+import AnimatedSection from "./AnimatedSection";
+import { motion } from "framer-motion";
 
 const leaderboardData = [
   { rank: 1, name: "Alex Chen", credits: 125000, avatar: "AC", streak: 45 },
@@ -41,7 +43,7 @@ const Leaderboard = () => {
   return (
     <section id="leaderboard" className="py-24 relative">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
+        <AnimatedSection className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-4">
             <Trophy className="w-8 h-8 text-gold" />
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
@@ -52,15 +54,19 @@ const Leaderboard = () => {
             Compete with fellow learners and climb the ranks. Top performers earn 
             bonus credits and exclusive badges.
           </p>
-        </div>
+        </AnimatedSection>
 
         <div className="max-w-2xl mx-auto">
           <div className="space-y-3">
             {leaderboardData.map((player, index) => (
-              <div
+              <motion.div
                 key={player.name}
-                className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 hover:scale-[1.02] ${getRankBg(player.rank)}`}
-                style={{ animationDelay: `${index * 0.05}s` }}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                whileHover={{ scale: 1.02, x: 5 }}
+                className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 cursor-pointer ${getRankBg(player.rank)}`}
               >
                 <div className="w-8 flex items-center justify-center">
                   {getRankIcon(player.rank) || (
@@ -70,11 +76,14 @@ const Leaderboard = () => {
                   )}
                 </div>
 
-                <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center">
+                <motion.div 
+                  whileHover={{ scale: 1.1 }}
+                  className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center"
+                >
                   <span className="font-display font-semibold text-sm text-primary-foreground">
                     {player.avatar}
                   </span>
-                </div>
+                </motion.div>
 
                 <div className="flex-1">
                   <p className="font-medium text-foreground">{player.name}</p>
@@ -89,20 +98,25 @@ const Leaderboard = () => {
                   </p>
                   <p className="text-xs text-muted-foreground">credits</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          <div className="mt-8 p-6 rounded-2xl glass text-center">
-            <p className="text-muted-foreground mb-2">Your current rank</p>
-            <div className="flex items-center justify-center gap-4">
-              <span className="font-display text-4xl font-bold text-foreground">#42</span>
-              <div className="text-left">
-                <p className="text-sm text-muted-foreground">8,250 credits</p>
-                <p className="text-sm text-gain">↑ 12 positions this week</p>
+          <AnimatedSection delay={0.3}>
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="mt-8 p-6 rounded-2xl glass text-center"
+            >
+              <p className="text-muted-foreground mb-2">Your current rank</p>
+              <div className="flex items-center justify-center gap-4">
+                <span className="font-display text-4xl font-bold text-foreground">#42</span>
+                <div className="text-left">
+                  <p className="text-sm text-muted-foreground">8,250 credits</p>
+                  <p className="text-sm text-gain">↑ 12 positions this week</p>
+                </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </AnimatedSection>
         </div>
       </div>
     </section>

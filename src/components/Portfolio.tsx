@@ -1,5 +1,7 @@
 import { ArrowDownRight, ArrowUpRight, DollarSign, TrendingDown, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
+import AnimatedSection from "./AnimatedSection";
+import { motion } from "framer-motion";
 
 const holdings = [
   { name: "Tech ETF", symbol: "TECH", value: 12500, change: 8.5, shares: 25 },
@@ -18,7 +20,7 @@ const Portfolio = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.05),transparent_70%)]" />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-12">
+        <AnimatedSection className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
             Simulated Portfolio
           </h2>
@@ -26,81 +28,99 @@ const Portfolio = () => {
             Practice investing with virtual credits. Make real market decisions 
             influenced by AI-analyzed market trends.
           </p>
-        </div>
+        </AnimatedSection>
 
         <div className="max-w-4xl mx-auto">
           {/* Portfolio Overview */}
-          <div className="rounded-2xl bg-gradient-card border border-border p-8 mb-6">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Total Portfolio Value</p>
-                <div className="flex items-baseline gap-3">
-                  <span className="font-display text-4xl font-bold text-foreground">
-                    ${totalValue.toLocaleString()}
-                  </span>
-                  <div className={`flex items-center gap-1 ${totalChange >= 0 ? 'text-gain' : 'text-loss'}`}>
-                    {totalChange >= 0 ? (
-                      <ArrowUpRight className="w-5 h-5" />
-                    ) : (
-                      <ArrowDownRight className="w-5 h-5" />
-                    )}
-                    <span className="font-semibold">{totalChange >= 0 ? '+' : ''}{totalChange}%</span>
+          <AnimatedSection delay={0.1}>
+            <motion.div 
+              whileHover={{ scale: 1.01 }}
+              className="rounded-2xl bg-gradient-card border border-border p-8 mb-6"
+            >
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Total Portfolio Value</p>
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-display text-4xl font-bold text-foreground">
+                      ${totalValue.toLocaleString()}
+                    </span>
+                    <div className={`flex items-center gap-1 ${totalChange >= 0 ? 'text-gain' : 'text-loss'}`}>
+                      {totalChange >= 0 ? (
+                        <ArrowUpRight className="w-5 h-5" />
+                      ) : (
+                        <ArrowDownRight className="w-5 h-5" />
+                      )}
+                      <span className="font-semibold">{totalChange >= 0 ? '+' : ''}{totalChange}%</span>
+                    </div>
                   </div>
+                  <p className="text-sm text-muted-foreground mt-1">Past 30 days</p>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">Past 30 days</p>
-              </div>
 
-              <div className="flex gap-3">
-                <Button variant="hero">
-                  <TrendingUp className="w-4 h-4" />
-                  Invest Credits
-                </Button>
-                <Button variant="outline">
-                  <DollarSign className="w-4 h-4" />
-                  Withdraw
-                </Button>
+                <div className="flex gap-3">
+                  <Button variant="hero">
+                    <TrendingUp className="w-4 h-4" />
+                    Invest Credits
+                  </Button>
+                  <Button variant="outline">
+                    <DollarSign className="w-4 h-4" />
+                    Withdraw
+                  </Button>
+                </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </AnimatedSection>
 
           {/* Holdings */}
-          <div className="rounded-2xl bg-gradient-card border border-border overflow-hidden">
-            <div className="p-4 border-b border-border">
-              <h3 className="font-display font-semibold text-foreground">Your Holdings</h3>
-            </div>
-            
-            <div className="divide-y divide-border">
-              {holdings.map((holding) => (
-                <div key={holding.symbol} className="p-4 flex items-center justify-between hover:bg-secondary/30 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-                      <span className="font-display font-semibold text-sm text-foreground">
-                        {holding.symbol.slice(0, 2)}
-                      </span>
+          <AnimatedSection delay={0.2}>
+            <div className="rounded-2xl bg-gradient-card border border-border overflow-hidden">
+              <div className="p-4 border-b border-border">
+                <h3 className="font-display font-semibold text-foreground">Your Holdings</h3>
+              </div>
+              
+              <div className="divide-y divide-border">
+                {holdings.map((holding, index) => (
+                  <motion.div 
+                    key={holding.symbol} 
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    whileHover={{ backgroundColor: "hsl(var(--secondary) / 0.3)" }}
+                    className="p-4 flex items-center justify-between transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-4">
+                      <motion.div 
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center"
+                      >
+                        <span className="font-display font-semibold text-sm text-foreground">
+                          {holding.symbol.slice(0, 2)}
+                        </span>
+                      </motion.div>
+                      <div>
+                        <p className="font-medium text-foreground">{holding.name}</p>
+                        <p className="text-sm text-muted-foreground">{holding.shares} shares</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-foreground">{holding.name}</p>
-                      <p className="text-sm text-muted-foreground">{holding.shares} shares</p>
-                    </div>
-                  </div>
 
-                  <div className="text-right">
-                    <p className="font-display font-semibold text-foreground">
-                      ${holding.value.toLocaleString()}
-                    </p>
-                    <div className={`flex items-center justify-end gap-1 text-sm ${holding.change >= 0 ? 'text-gain' : 'text-loss'}`}>
-                      {holding.change >= 0 ? (
-                        <TrendingUp className="w-3 h-3" />
-                      ) : (
-                        <TrendingDown className="w-3 h-3" />
-                      )}
-                      <span>{holding.change >= 0 ? '+' : ''}{holding.change}%</span>
+                    <div className="text-right">
+                      <p className="font-display font-semibold text-foreground">
+                        ${holding.value.toLocaleString()}
+                      </p>
+                      <div className={`flex items-center justify-end gap-1 text-sm ${holding.change >= 0 ? 'text-gain' : 'text-loss'}`}>
+                        {holding.change >= 0 ? (
+                          <TrendingUp className="w-3 h-3" />
+                        ) : (
+                          <TrendingDown className="w-3 h-3" />
+                        )}
+                        <span>{holding.change >= 0 ? '+' : ''}{holding.change}%</span>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
       </div>
     </section>
