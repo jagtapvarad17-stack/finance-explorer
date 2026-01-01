@@ -1,6 +1,6 @@
 import { Coins, Menu, Trophy, TrendingUp, X, User, Settings, LogOut, Award } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -26,7 +26,12 @@ const navLinks = [
 
 const Header = ({ credits }: HeaderProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    navigate("/auth");
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass">
@@ -114,7 +119,10 @@ const Header = ({ credits }: HeaderProps) => {
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-border" />
-                <DropdownMenuItem className="cursor-pointer text-destructive hover:text-destructive">
+                <DropdownMenuItem 
+                  onClick={handleLogout}
+                  className="cursor-pointer text-destructive hover:text-destructive"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
